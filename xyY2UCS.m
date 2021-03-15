@@ -1,5 +1,6 @@
-function [ output_args ] = xyY2XYZ( xy )
+function [ output_args ] = xyY2UCS( xy )
 %% Adam Briggs
+% 14 February 2021
 % Input xy chromaticity coordinates and output tristimulus values
 % MUST INPUT XYZ AS 3X1 MATRIX
 %This function simply changes x,y,Y Chromaticitiy coordinates
@@ -15,8 +16,9 @@ else
     y=xy(2,:);
     Y=ones(1,w); 
 end
-X=(x./y).*Y;
-Z=((1-x-y)./y).*Y;
-output_args=[X;Y;Z];
+
+u = (4.*x)./(-2.*x-12.*y+3);
+v = (9.*x)./(-2.*x+12.*y+3);
+output_args=[u;v];
 end
 
