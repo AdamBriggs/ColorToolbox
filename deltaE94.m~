@@ -1,0 +1,32 @@
+function DE94 = deltaE94(LabTest, LabStandard, varargin)
+% Calculates Delta E^94 Color difference metric
+kl = 1;
+kc = 1;
+kh = 1;
+
+a_test = LabTest(2,:);
+b_test = LabTest(3,:);
+
+a_standard = LabStandard(2,:);
+b_standard = LabStandard(3,:);
+
+cab = @(x) sqrt(x(2,:).^2+x(3,:).^2);
+
+C_starB = cab(LabTest);
+C_starS = cab(LabStandard);
+
+delC = C_starB - C_starS;
+
+delH = (a_test.*b_standard - a_standard.*b_test)./ ...
+    sqrt()
+    
+if any(strcmp(varargin, 'geometric mean'))
+        C_star=(C_starS.*C_starB).^(0.5);
+        disp('TESTING');
+    else
+        C_star = C_starS;
+end
+
+end
+
+

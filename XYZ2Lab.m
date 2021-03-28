@@ -1,27 +1,23 @@
-function [ output_args ] = XYZ2Lab(XYZ, XYZn)
-%% Adam Briggs
-% Input xy chromaticity coordinates and output tristimulus values
-% MUST INPUT XYZ AS 3X1 MATRIX
+function output=XYZLab(Input1,Input2)
+% This function calculates CIELAB values as a 3xn (L;a;b)
+% where Input1 is the XYZ of the object, and Input2 is the XYZ of the white
+% point (XYZ_n). jdk 10/1/11
 
-    function [output] = f(ratio)
-        if ratio > 0.008856
-            output = ratio.^(1/3);
-        else
-            output = (7.787.*ratio+16)./116;
-        end
-    end
+ratio=diag(1./Input2)*Input1; % determines XYZ/XYZ_n 
+ratio1=power(ratio,.333333);  % f(x) for light colors
+ratio2=7.787.*ratio+16/116;   % f(x) for dark colors
+idxL=(ratio<=0.008856);  %indexing the value of the ratio for dark colors
 
-X = XYZ(1,:);
-Y = XYZ(2,:);
-Z = XYZ(3,:);
+ratioCon2X=idxL.*ratio2;  %the LAB value for dark colors
+ratioCon1X=~idxL.*ratio1; % the LAB values for light colors (~indexing)
 
-Xn = XYZn(1,:);
-Yn = XYZn(2,:);
-Zn = XYZn(3,:);
+XYZnew3=ratioCon2X+ratioCon1X;  % the LAB values of either dark or light colors
 
-L = 116.*f(Y./Yn)-16;
-a = 500.*(f(X./Xn)-f(Y./Yn));
-b = 200.*(f(Y./Yn)-f(Z./Zn));
-output_args=[L;a;b];
+Lstar=116.*XYZnew3(2,:)-16;
+astar=500.*XYZnew3(1,:)-500.*XYZnew3(2,:);
+bstar=200.*XYZnew3(2,:)-200.*XYZnew3(3,:);
+
+output=cat(1,Lstar,astar,bstar);  % output a 3xn
+
+
 end
-

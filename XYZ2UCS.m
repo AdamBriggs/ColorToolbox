@@ -1,14 +1,17 @@
-function [UCS] = XYZ2UCS(XYZ)
-%% Adam Briggs
-% 15 March 2021
-% Input tristimulus values and output xy chromaticity coordinates
-% MUST INPUT XYZ AS 3X1 MATRIX
-X = XYZ(1,:);
-Y = XYZ(2,:);
-Z = XYZ(3,:);
+function [ output_args ] = XYZ2UCS( XYZ )
+%This function simply changes XYZ Tristimulus Values
+%to u', v' coordinates in the Uniform Color Scales.
 
-u = (4.*X)./(X+15.*Y+3.*Z);
-v = (9.*Y)./(X+15.*Y+3.*Z);
+X=XYZ(1,:);
+Y=XYZ(2,:);
+Z=XYZ(3,:);
 
-[UCS] =[u;v]; %Outputs in correct vector format
+u_prime=(4.*X)./(X+15.*Y+3.*Z);
+
+v_prime=(9.*Y)./(X+15.*Y+3.*Z);
+
+output_args=[u_prime;v_prime;Y];
+
+
 end
+
