@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mscript xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <version>9.7</version>
+   <release>2019b</release>
+   <date>2021-04-06</date>
+   <cell>
+      <count>1</count>
+      <mcode>% Adam Briggs
+% OPT222 HW5</mcode>
+      <mcode-xmlized>
+         <mwsh:code xml:space="preserve"><mwsh:comments xml:space="preserve">% Adam Briggs</mwsh:comments>
+<mwsh:comments xml:space="preserve">% OPT222 HW5</mwsh:comments></mwsh:code>
+      </mcode-xmlized>
+      <mcode-count>1</mcode-count>
+      <cellOutputTarget>1</cellOutputTarget>
+   </cell>
+   <cell>
+      <count>2</count>
+      <steptitle>Q1</steptitle>
+      <mcode>load SkyBlue
+load cie
+SkyBlueInterp = interp1(SkyBlue(:,1),SkyBlue(:,2),(380:5:780)');
+SkyBlueInternp(:,2) = SkyBlueInterp(:,1);
+SkyBlueInterp(:,2) = SkyBlueInterp(:,1);
+SkyBlueInterp(:,1) = (380:5:780)';</mcode>
+      <mcode-xmlized>
+         <mwsh:code xml:space="preserve">load <mwsh:strings xml:space="preserve">SkyBlue</mwsh:strings>
+load <mwsh:strings xml:space="preserve">cie</mwsh:strings>
+SkyBlueInterp = interp1(SkyBlue(:,1),SkyBlue(:,2),(380:5:780)');
+SkyBlueInternp(:,2) = SkyBlueInterp(:,1);
+SkyBlueInterp(:,2) = SkyBlueInterp(:,1);
+SkyBlueInterp(:,1) = (380:5:780)';</mwsh:code>
+      </mcode-xmlized>
+      <mcode-count>2</mcode-count>
+      <cellOutputTarget>2</cellOutputTarget>
+   </cell>
+   <cell>
+      <count>3</count>
+      <steptitle>Q2</steptitle>
+      <mcode>%Create XYZ arrays of various illuminants
+d65XYZ = ref2XYZ(ones(81,1),cie.cmf2deg,cie.illD65);
+aXYZ = ref2XYZ(ones(81,1),cie.cmf2deg,cie.illA);
+F2XYZ = ref2XYZ(ones(81,1),cie.cmf2deg,cie.illF(:,2));
+blueXYZ = ref2XYZ(SkyBlueInterp(:,2),cie.cmf2deg,cie.illD65);
+
+AtoD65_XYZ = XYZ_VK_XYZ(blueXYZ,aXYZ,d65XYZ);
+F2toD65_XYZ = XYZ_VK_XYZ(blueXYZ,F2XYZ,d65XYZ);</mcode>
+      <mcode-xmlized>
+         <mwsh:code xml:space="preserve"><mwsh:comments xml:space="preserve">%Create XYZ arrays of various illuminants</mwsh:comments>
+d65XYZ = ref2XYZ(ones(81,1),cie.cmf2deg,cie.illD65);
+aXYZ = ref2XYZ(ones(81,1),cie.cmf2deg,cie.illA);
+F2XYZ = ref2XYZ(ones(81,1),cie.cmf2deg,cie.illF(:,2));
+blueXYZ = ref2XYZ(SkyBlueInterp(:,2),cie.cmf2deg,cie.illD65);
+
+AtoD65_XYZ = XYZ_VK_XYZ(blueXYZ,aXYZ,d65XYZ);
+F2toD65_XYZ = XYZ_VK_XYZ(blueXYZ,F2XYZ,d65XYZ);</mwsh:code>
+      </mcode-xmlized>
+      <mcode-count>3</mcode-count>
+      <cellOutputTarget>3</cellOutputTarget>
+   </cell>
+   <cell>
+      <count>4</count>
+      <steptitle>Q3</steptitle>
+      <mcode>A_D65_Lab = XYZ2Lab(AtoD65_XYZ,d65XYZ);
+F2_D65_Lab = XYZ2Lab(F2toD65_XYZ,d65XYZ);
+blueLAB = XYZ2Lab(blueXYZ,d65XYZ);
+
+figure(1)
+hold on
+plot(A_D65_Lab(2),A_D65_Lab(3),'d');
+plot(F2_D65_Lab(2),F2_D65_Lab(3),'d');
+plot(blueLAB(2),blueLAB(3),'d');
+hold off
+legend('A','F2','Blue')
+xlabel('a^*')
+ylabel('b^*')</mcode>
+      <mcode-xmlized>
+         <mwsh:code xml:space="preserve">A_D65_Lab = XYZ2Lab(AtoD65_XYZ,d65XYZ);
+F2_D65_Lab = XYZ2Lab(F2toD65_XYZ,d65XYZ);
+blueLAB = XYZ2Lab(blueXYZ,d65XYZ);
+
+figure(1)
+hold <mwsh:strings xml:space="preserve">on</mwsh:strings>
+plot(A_D65_Lab(2),A_D65_Lab(3),<mwsh:strings xml:space="preserve">'d'</mwsh:strings>);
+plot(F2_D65_Lab(2),F2_D65_Lab(3),<mwsh:strings xml:space="preserve">'d'</mwsh:strings>);
+plot(blueLAB(2),blueLAB(3),<mwsh:strings xml:space="preserve">'d'</mwsh:strings>);
+hold <mwsh:strings xml:space="preserve">off</mwsh:strings>
+legend(<mwsh:strings xml:space="preserve">'A'</mwsh:strings>,<mwsh:strings xml:space="preserve">'F2'</mwsh:strings>,<mwsh:strings xml:space="preserve">'Blue'</mwsh:strings>)
+xlabel(<mwsh:strings xml:space="preserve">'a^*'</mwsh:strings>)
+ylabel(<mwsh:strings xml:space="preserve">'b^*'</mwsh:strings>)</mwsh:code>
+      </mcode-xmlized>
+      <mcode-count>4</mcode-count>
+      <cellOutputTarget>4</cellOutputTarget>
+      <img src="HW5Work_01.png"/>
+   </cell>
+   <cell>
+      <count>5</count>
+      <steptitle>Q4</steptitle>
+      <mcode>diff_A_D65 = deltaE94(A_D65_Lab,blueLAB);
+diff_F2_D65 = deltaE94(F2_D65_Lab,blueLAB);
+
+disp(['The DE94 color difference between the illuminant A blue and' ...
+    'the original D65 blue is: ',num2str(diff_A_D65)]);
+
+disp(['The DE94 color difference between the illuminant F2 blue and' ...
+    'the original D65 blue is: ',num2str(diff_F2_D65)]);
+
+disp(['If these are &gt;3, there is a just noticable color difference.'])
+
+% This painting will not maintain its blue sky appearance under either of
+% the two other illuminants.</mcode>
+      <mcode-xmlized>
+         <mwsh:code xml:space="preserve">diff_A_D65 = deltaE94(A_D65_Lab,blueLAB);
+diff_F2_D65 = deltaE94(F2_D65_Lab,blueLAB);
+
+disp([<mwsh:strings xml:space="preserve">'The DE94 color difference between the illuminant A blue and'</mwsh:strings> <mwsh:keywords xml:space="preserve">...</mwsh:keywords>
+    <mwsh:strings xml:space="preserve">'the original D65 blue is: '</mwsh:strings>,num2str(diff_A_D65)]);
+
+disp([<mwsh:strings xml:space="preserve">'The DE94 color difference between the illuminant F2 blue and'</mwsh:strings> <mwsh:keywords xml:space="preserve">...</mwsh:keywords>
+    <mwsh:strings xml:space="preserve">'the original D65 blue is: '</mwsh:strings>,num2str(diff_F2_D65)]);
+
+disp([<mwsh:strings xml:space="preserve">'If these are &gt;3, there is a just noticable color difference.'</mwsh:strings>])
+
+<mwsh:comments xml:space="preserve">% This painting will not maintain its blue sky appearance under either of</mwsh:comments>
+<mwsh:comments xml:space="preserve">% the two other illuminants.</mwsh:comments></mwsh:code>
+      </mcode-xmlized>
+      <mcode-count>5</mcode-count>
+      <cellOutputTarget>5</cellOutputTarget>
+      <mcodeoutput class="codeoutput">The DE94 color difference between the illuminant A blue andthe original D65 blue is: 29.8636
+The DE94 color difference between the illuminant F2 blue andthe original D65 blue is: 11.66
+If these are &gt;3, there is a just noticable color difference.
+</mcodeoutput>
+   </cell>
+   <originalCode>% Adam Briggs
+% OPT222 HW5
+
+%% Q1
+load SkyBlue
+load cie
+SkyBlueInterp = interp1(SkyBlue(:,1),SkyBlue(:,2),(380:5:780)');
+SkyBlueInternp(:,2) = SkyBlueInterp(:,1);
+SkyBlueInterp(:,2) = SkyBlueInterp(:,1);
+SkyBlueInterp(:,1) = (380:5:780)';
+
+%% Q2
+%Create XYZ arrays of various illuminants
+d65XYZ = ref2XYZ(ones(81,1),cie.cmf2deg,cie.illD65);
+aXYZ = ref2XYZ(ones(81,1),cie.cmf2deg,cie.illA);
+F2XYZ = ref2XYZ(ones(81,1),cie.cmf2deg,cie.illF(:,2));
+blueXYZ = ref2XYZ(SkyBlueInterp(:,2),cie.cmf2deg,cie.illD65);
+
+AtoD65_XYZ = XYZ_VK_XYZ(blueXYZ,aXYZ,d65XYZ);
+F2toD65_XYZ = XYZ_VK_XYZ(blueXYZ,F2XYZ,d65XYZ);
+
+%% Q3
+A_D65_Lab = XYZ2Lab(AtoD65_XYZ,d65XYZ);
+F2_D65_Lab = XYZ2Lab(F2toD65_XYZ,d65XYZ);
+blueLAB = XYZ2Lab(blueXYZ,d65XYZ); 
+
+figure(1)
+hold on
+plot(A_D65_Lab(2),A_D65_Lab(3),'d');
+plot(F2_D65_Lab(2),F2_D65_Lab(3),'d');
+plot(blueLAB(2),blueLAB(3),'d');
+hold off
+legend('A','F2','Blue')
+xlabel('a^*')
+ylabel('b^*')
+
+%% Q4
+diff_A_D65 = deltaE94(A_D65_Lab,blueLAB);
+diff_F2_D65 = deltaE94(F2_D65_Lab,blueLAB);
+
+disp(['The DE94 color difference between the illuminant A blue and' ...
+    'the original D65 blue is: ',num2str(diff_A_D65)]);
+
+disp(['The DE94 color difference between the illuminant F2 blue and' ...
+    'the original D65 blue is: ',num2str(diff_F2_D65)]);
+
+disp(['If these are &gt;3, there is a just noticable color difference.'])
+
+% This painting will not maintain its blue sky appearance under either of
+% the two other illuminants. 
+
+</originalCode>
+   <m-file>HW5Work</m-file>
+   <filename>/Users/adambriggs/Dropbox/College/Spring 2021/OPT 222/ColorToolbox_BriggsAdam/HW5Work.m</filename>
+   <outputdir>/Users/adambriggs/Dropbox/College/Spring 2021/OPT 222/ColorToolbox_BriggsAdam/html</outputdir>
+</mscript>
